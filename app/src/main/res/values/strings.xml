@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">task02</string>
+    <string name="FALSE">FALSE</string>
+    <string name="TRUE">TRUE</string>
+    <string name="Connect">Connect</string>
+    <string name="NotConnected">NotConnected</string>
+
+</resources>

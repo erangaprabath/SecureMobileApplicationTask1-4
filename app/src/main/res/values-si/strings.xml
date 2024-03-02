@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">task02</string>
+    <string name="FALSE">හරි</string>
+    <string name="TRUE">වැරදි</string>
+    <string name="Connect">Connect</string>
+    <string name="NotConnected">NotConnected</string>
+</resources>

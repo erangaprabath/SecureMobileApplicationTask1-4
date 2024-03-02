@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wrongAnswer" translatable="false">INCORRECT 🥲</string>
+    <string name="correctAnswer" translatable="false">CORRECT 🫡</string>
+    <string name="question_ocean" translatable="false"> The pacific ocean is larger than Atlantic Ocean.</string>
+    <string name="question_mideast" translatable="false">The Suez canal connects the Red Sea and the Indian Ocean.</string>
+    <string name="question_africa" translatable="false"> The source of the Nile river is in Egypt </string>
+    <string name="question_americas" translatable="false"> The Amazon river is the longest river in the Americas.</string>
+    <string name="question_asia" translatable="false">Lake Baikal is the world\'s oldest and deepest freshwater lake</string>
+    <string name="question_china" translatable="false">The Great Wall of China is visible from space</string>
+    <string name="question_mountain" translatable="false">Mount Everest is the tallest mountain in the world.</string>
+    <string name="question_canada" translatable="false">The capital of Canada is Toronto.</string>
+    <string name="question_france" translatable="false">The Statue of Liberty was a gift from France to the United States.</string>
+    <string name="question_sea" translatable="false">The Great Barrier Reef is the world\'s largest coral reef system.</string>
+</resources>
