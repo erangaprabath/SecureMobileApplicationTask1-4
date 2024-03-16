@@ -1,7 +1,11 @@
 package com.example.task02.GeoquizViewAndViewController;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,10 +13,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.task02.MainActivity;
 import com.example.task02.QuizModel.questions;
 import com.example.task02.R;
 
 import java.util.Arrays;
+import android.util.Log;
+
 
 public class QuizTask extends AppCompatActivity {
     private Button trueButton;
@@ -24,6 +31,14 @@ public class QuizTask extends AppCompatActivity {
     private Button resit;
     private int currentQuiz = 0;
     private int correctAnswers = 0;
+    private static final  String TAG = "QuizTask";
+    private static final String KEY_INDEX = "INDEX";
+    private static final String SUCCSS_RATE = "FinishedRate";
+    private static  final String CORRECT_ANSWER = "Answers";
+    private Button nextScreen;
+    private int successRate = 0;
+    private static  final  int REQUEST_CHEAT = 0;
+
 
     private questions[] quizQuestions = new questions[]{
             new questions(R.string.question_ocean,true),
@@ -38,7 +53,23 @@ public class QuizTask extends AppCompatActivity {
             new questions(R.string.question_sea,true),
 
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK){
+            return;
+        }if (requestCode == REQUEST_CHEAT){
+            if (data == null){
+                return;
+            }
+            cheat[currentQuiz] = CheatScreen.wasAnswerShow(data);
+        }
+    }
+
     private boolean[] answersSelected = new boolean[quizQuestions.length];
+    private boolean[] cheat = new boolean[quizQuestions.length];
+
     private void updateQuizView(int quizIndex){
         int updatedQuiz = quizQuestions[quizIndex].getQuestionTextId();
         quizTextView.setText("NO : " + quizIndex + " " + getString(updatedQuiz));
@@ -57,16 +88,19 @@ public class QuizTask extends AppCompatActivity {
 
     private void checkAnswers(boolean selectedAnswer){
         boolean correctAnswer = quizQuestions[currentQuiz].isAnswer();
-
-        if (!answersSelected[currentQuiz]) {
-            if (selectedAnswer == correctAnswer) {
-                Toast.makeText(this, R.string.correctAnswer, Toast.LENGTH_SHORT).show();
-                correctAnswers++;
-            } else {
-                Toast.makeText(this, R.string.wrongAnswer, Toast.LENGTH_SHORT).show();
+        if (cheat[currentQuiz]){
+            Toast.makeText(this,"CHEATER",Toast.LENGTH_SHORT).show();
+        }else {
+            if (!answersSelected[currentQuiz]) {
+                if (selectedAnswer == correctAnswer) {
+                    Toast.makeText(this, R.string.correctAnswer, Toast.LENGTH_SHORT).show();
+                    correctAnswers++;
+                } else {
+                    Toast.makeText(this, R.string.wrongAnswer, Toast.LENGTH_SHORT).show();
+                }
+                answersSelected[currentQuiz] = true;
+                updateQuizView(currentQuiz);
             }
-            answersSelected[currentQuiz] = true;
-            updateQuizView(currentQuiz);
         }
     }
 
@@ -91,14 +125,22 @@ public class QuizTask extends AppCompatActivity {
     }
 
     private void updateSuccessRate(){
-        int successRate = (int)(((double)correctAnswers / quizQuestions.length) * 100);
+
+       successRate = (int)(((double)correctAnswers / quizQuestions.length) * 100);
         resultTextView.setText("Success Rate is " + successRate + "%");
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG,"on create (Bundle) call");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_task);
+        cheat[currentQuiz] = false;
+        if (savedInstanceState != null){
+            currentQuiz = savedInstanceState.getInt(KEY_INDEX,0);
+            successRate = savedInstanceState.getInt(SUCCSS_RATE,1);
+            correctAnswers = savedInstanceState.getInt(CORRECT_ANSWER,2);
+        }
 
         quizTextView = findViewById(R.id.quizView);
         trueButton = findViewById(R.id.trueButton);
@@ -107,6 +149,8 @@ public class QuizTask extends AppCompatActivity {
         previousButton = findViewById(R.id.previousButton);
         resultTextView = findViewById(R.id.resultTextView);
         resit = findViewById(R.id.buttonResit);
+        nextScreen = findViewById(R.id.NextScreen);
+        resultTextView.setText("Success Rate is " + successRate + "%");
 
         updateQuizView(currentQuiz);
 
@@ -145,6 +189,56 @@ public class QuizTask extends AppCompatActivity {
                 resitQuiz();
             }
         });
+        nextScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean answerIsTrue = quizQuestions[currentQuiz].isAnswer();
+                Intent i = CheatScreen.newIntent(QuizTask.this,answerIsTrue);
+//                Intent intent = new Intent(QuizTask.this,CheatScreen.class);
+
+                startActivityForResult(i,REQUEST_CHEAT);
+            }
+        });
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_INDEX,currentQuiz);
+        outState.putInt(SUCCSS_RATE,successRate);
+        outState.putInt(CORRECT_ANSWER,correctAnswers);
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"on start called");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"on pause called");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"on resume called");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"on stop called");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"on destroy called");
     }
 }
 
