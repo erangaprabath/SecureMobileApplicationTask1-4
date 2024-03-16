@@ -85,9 +85,10 @@ public class QuizTask extends AppCompatActivity {
 
     private void checkAnswers(boolean selectedAnswer){
         boolean correctAnswer = quizQuestions[currentQuiz].isAnswer();
-//        if (cheat[currentQuiz] && !answersSelected[currentQuiz]){
-//            Toast.makeText(this,"CHEATER",Toast.LENGTH_SHORT).show();
-//        }else {
+        if (cheat[currentQuiz] && !answersSelected[currentQuiz]){
+            Toast.makeText(this,"CHEATER",Toast.LENGTH_SHORT).show();
+        }
+//        else {
             if (!answersSelected[currentQuiz]) {
                 if (selectedAnswer == correctAnswer) {
                     if (cheat[currentQuiz] && !answersSelected[currentQuiz]){
@@ -132,13 +133,15 @@ public class QuizTask extends AppCompatActivity {
     }
     private void holdInstance(Bundle savedInstanceState){
         currentQuiz = savedInstanceState.getInt(KEY_INDEX,0);
-        successRate = savedInstanceState.getInt(SUCCSS_RATE,1);
-        correctAnswers = savedInstanceState.getInt(CORRECT_ANSWER,2);
+
+        successRate = savedInstanceState.getInt(SUCCSS_RATE,0);
+        correctAnswers = savedInstanceState.getInt(CORRECT_ANSWER,0);
         cheat[currentQuiz] = savedInstanceState.getBoolean(IS_CHEATED,false);
         cheatedQuizCount = savedInstanceState.getIntArray(CHEATED_COUNT);
         if (cheatedQuizCount == null) {
             cheatedQuizCount = new int[]{0, 1};
         }
+
         answersSelected[currentQuiz] = savedInstanceState.getBoolean(HOLD_ANSWERED_QUIZ,false);
     }
 
