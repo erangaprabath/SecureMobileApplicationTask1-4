@@ -53,6 +53,10 @@ public class QuizTask extends AppCompatActivity {
             new questions(R.string.question_sea,true),
 
     };
+    private final boolean[] answersSelected = new boolean[quizQuestions.length];
+    private boolean[] cheat = new boolean[quizQuestions.length];
+    private static  final String IS_CHEATED = "cheated";
+    private boolean holdCheatValue = false;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -67,8 +71,7 @@ public class QuizTask extends AppCompatActivity {
         }
     }
 
-    private boolean[] answersSelected = new boolean[quizQuestions.length];
-    private boolean[] cheat = new boolean[quizQuestions.length];
+
 
     private void updateQuizView(int quizIndex){
         int updatedQuiz = quizQuestions[quizIndex].getQuestionTextId();
@@ -91,6 +94,7 @@ public class QuizTask extends AppCompatActivity {
         if (cheat[currentQuiz]){
             Toast.makeText(this,"CHEATER",Toast.LENGTH_SHORT).show();
         }else {
+            holdCheatValue = false;
             if (!answersSelected[currentQuiz]) {
                 if (selectedAnswer == correctAnswer) {
                     Toast.makeText(this, R.string.correctAnswer, Toast.LENGTH_SHORT).show();
@@ -140,6 +144,8 @@ public class QuizTask extends AppCompatActivity {
             currentQuiz = savedInstanceState.getInt(KEY_INDEX,0);
             successRate = savedInstanceState.getInt(SUCCSS_RATE,1);
             correctAnswers = savedInstanceState.getInt(CORRECT_ANSWER,2);
+            cheat[currentQuiz] = savedInstanceState.getBoolean(IS_CHEATED,false);
+
         }
 
         quizTextView = findViewById(R.id.quizView);
@@ -208,6 +214,7 @@ public class QuizTask extends AppCompatActivity {
         outState.putInt(KEY_INDEX,currentQuiz);
         outState.putInt(SUCCSS_RATE,successRate);
         outState.putInt(CORRECT_ANSWER,correctAnswers);
+        outState.putBoolean(IS_CHEATED,cheat[currentQuiz]);
     }
 
 
