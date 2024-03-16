@@ -218,7 +218,7 @@ public class QuizTask extends AppCompatActivity {
         outState.putInt(SUCCSS_RATE,successRate);
         outState.putInt(CORRECT_ANSWER,correctAnswers);
         outState.putBoolean(IS_CHEATED,cheat[currentQuiz]);
-        outState.putBoolean(HOLD_ANSWERED_QUIZ,!answersSelected[currentQuiz]);
+        outState.putBoolean(HOLD_ANSWERED_QUIZ,answersSelected[currentQuiz]);
     }
 
 
