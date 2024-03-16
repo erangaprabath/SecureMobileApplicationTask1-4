@@ -37,7 +37,7 @@
     <ImageButton
         android:id="@+id/nextQuizButton"
         android:layout_width="61dp"
-        android:layout_height="41dp"
+        android:layout_height="48dp"
         android:backgroundTint="@android:color/darker_gray"
         android:gravity="center"
         android:src="@drawable/arrow_right"
@@ -80,13 +80,15 @@
 
     <TextView
         android:id="@+id/resultTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="294dp"
+        android:layout_height="54dp"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/quizView" />
+        app:layout_constraintTop_toBottomOf="@+id/quizView"
+        app:layout_constraintVertical_bias="0.6" />
 
     <Button
         android:id="@+id/buttonResit"
@@ -102,6 +104,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.042" />
+
+    <Button
+        android:id="@+id/NextScreen"
+        android:layout_width="131dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/cardview_dark_background"
+        android:text="Cheat View"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
