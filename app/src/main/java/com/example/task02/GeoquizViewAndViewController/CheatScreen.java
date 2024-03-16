@@ -19,6 +19,7 @@ public class CheatScreen extends AppCompatActivity {
     private TextView answerTextView;
     private Button showAnswer;
     private static final String EXTRA_ANSER_SAVE = "FinishedRate";
+    private static final String EXTRA_ANSWER_SHOWN = "ANSWER_SHOWN";
 
     public static Intent newIntent(Context packageContext,boolean answerTrue){
         Intent i = new Intent(packageContext,CheatScreen.class);
@@ -28,7 +29,6 @@ public class CheatScreen extends AppCompatActivity {
     public static boolean wasAnswerShow(Intent result){
         return result.getBooleanExtra(EXTRA_ANSER_SHOW,false);
     }
-
     private  void showCheatedAnswers(){
         if (answerIsTrue){
             answerTextView.setText(R.string.TRUE);
@@ -38,21 +38,23 @@ public class CheatScreen extends AppCompatActivity {
         showAnswer(true);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null){
-            answerIsTrue = savedInstanceState.getBoolean(EXTRA_ANSER_SAVE,false);
-            showCheatedAnswers();
-        }
+
         setContentView(R.layout.activity_cheat_screen);
         answerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSER,false);
         answerTextView = findViewById(R.id.textView);
         showAnswer = findViewById(R.id.button);
+        if (savedInstanceState != null){
+            answerIsTrue = savedInstanceState.getBoolean(EXTRA_ANSER_SAVE,false);
+            showCheatedAnswers();
+        }
         showAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             showCheatedAnswers();
+                showCheatedAnswers();
             }
         });
 
@@ -69,5 +71,6 @@ public class CheatScreen extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(EXTRA_ANSER_SAVE,answerIsTrue);
+
     }
 }
