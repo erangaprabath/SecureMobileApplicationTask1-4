@@ -22,24 +22,20 @@ import android.util.Log;
 
 
 public class QuizTask extends AppCompatActivity {
-    private Button trueButton;
-    private Button falseButton;
-    private ImageButton nextButton;
-    private ImageButton previousButton;
-    private TextView quizTextView;
-    private TextView resultTextView;
-    private Button resit;
+    private Button falseButton,trueButton,resit;
+    private ImageButton nextButton,previousButton;
+    private TextView quizTextView,resultTextView,cheatQuizCount;
     private int currentQuiz = 0;
     private int correctAnswers = 0;
     private static final  String TAG = "QuizTask";
     private static final String KEY_INDEX = "INDEX";
     private static final String SUCCSS_RATE = "FinishedRate";
     private static  final String CORRECT_ANSWER = "Answers";
+    private static  final String CHEATED_COUNT = "Answers";
     private Button nextScreen;
     private int successRate = 0;
+    private int[] cheatedQuizCount = {0};
     private static  final  int REQUEST_CHEAT = 0;
-
-
     private questions[] quizQuestions = new questions[]{
             new questions(R.string.question_ocean,true),
             new questions(R.string.question_mideast,false),
@@ -56,7 +52,7 @@ public class QuizTask extends AppCompatActivity {
     private final boolean[] answersSelected = new boolean[quizQuestions.length];
     private boolean[] cheat = new boolean[quizQuestions.length];
     private static  final String IS_CHEATED = "cheated";
-    private boolean holdCheatValue = false;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -76,14 +72,11 @@ public class QuizTask extends AppCompatActivity {
     private void updateQuizView(int quizIndex){
         int updatedQuiz = quizQuestions[quizIndex].getQuestionTextId();
         quizTextView.setText("NO : " + quizIndex + " " + getString(updatedQuiz));
-
         if (quizIndex == 0) {
-
             previousButton.setVisibility(View.INVISIBLE);
         } else {
             previousButton.setVisibility(View.VISIBLE);
         }
-
             trueButton.setEnabled(!answersSelected[quizIndex]);
             falseButton.setEnabled(!answersSelected[quizIndex]);
 
@@ -91,10 +84,9 @@ public class QuizTask extends AppCompatActivity {
 
     private void checkAnswers(boolean selectedAnswer){
         boolean correctAnswer = quizQuestions[currentQuiz].isAnswer();
-        if (cheat[currentQuiz]){
+        if (cheat[currentQuiz] && !answersSelected[currentQuiz]){
             Toast.makeText(this,"CHEATER",Toast.LENGTH_SHORT).show();
         }else {
-            holdCheatValue = false;
             if (!answersSelected[currentQuiz]) {
                 if (selectedAnswer == correctAnswer) {
                     Toast.makeText(this, R.string.correctAnswer, Toast.LENGTH_SHORT).show();
@@ -145,9 +137,13 @@ public class QuizTask extends AppCompatActivity {
             successRate = savedInstanceState.getInt(SUCCSS_RATE,1);
             correctAnswers = savedInstanceState.getInt(CORRECT_ANSWER,2);
             cheat[currentQuiz] = savedInstanceState.getBoolean(IS_CHEATED,false);
+            cheatedQuizCount = savedInstanceState.getIntArray(CHEATED_COUNT);
+            if (cheatedQuizCount == null) {
+                cheatedQuizCount = new int[]{0, 1};
+            }
 
         }
-
+//        cheatQuizCount = findViewById(R.id.cheatedQuizCount);
         quizTextView = findViewById(R.id.quizView);
         trueButton = findViewById(R.id.trueButton);
         falseButton = findViewById(R.id.falseButton);
