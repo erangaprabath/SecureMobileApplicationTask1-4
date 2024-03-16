@@ -84,19 +84,23 @@ public class QuizTask extends AppCompatActivity {
 
     private void checkAnswers(boolean selectedAnswer){
         boolean correctAnswer = quizQuestions[currentQuiz].isAnswer();
-        if (cheat[currentQuiz] && !answersSelected[currentQuiz]){
-            Toast.makeText(this,"CHEATER",Toast.LENGTH_SHORT).show();
-        }else {
+//        if (cheat[currentQuiz] && !answersSelected[currentQuiz]){
+//            Toast.makeText(this,"CHEATER",Toast.LENGTH_SHORT).show();
+//        }else {
             if (!answersSelected[currentQuiz]) {
                 if (selectedAnswer == correctAnswer) {
-                    Toast.makeText(this, R.string.correctAnswer, Toast.LENGTH_SHORT).show();
+                    if (cheat[currentQuiz] && !answersSelected[currentQuiz]){
+                        Toast.makeText(this,"CHEATER",Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, R.string.correctAnswer, Toast.LENGTH_SHORT).show();
+                    }
                     correctAnswers++;
                 } else {
                     Toast.makeText(this, R.string.wrongAnswer, Toast.LENGTH_SHORT).show();
                 }
                 answersSelected[currentQuiz] = true;
                 updateQuizView(currentQuiz);
-            }
+//            }
         }
     }
 
