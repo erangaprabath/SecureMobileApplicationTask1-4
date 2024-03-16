@@ -29,11 +29,21 @@ public class CheatScreen extends AppCompatActivity {
         return result.getBooleanExtra(EXTRA_ANSER_SHOW,false);
     }
 
+    private  void showCheatedAnswers(){
+        if (answerIsTrue){
+            answerTextView.setText(R.string.TRUE);
+        }else {
+            answerTextView.setText(R.string.FALSE);
+        }
+        showAnswer(true);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null){
             answerIsTrue = savedInstanceState.getBoolean(EXTRA_ANSER_SAVE,false);
+            showCheatedAnswers();
         }
         setContentView(R.layout.activity_cheat_screen);
         answerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSER,false);
@@ -42,12 +52,7 @@ public class CheatScreen extends AppCompatActivity {
         showAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (answerIsTrue){
-                    answerTextView.setText(R.string.TRUE);
-                }else {
-                    answerTextView.setText(R.string.FALSE);
-                }
-                showAnswer(true);
+             showCheatedAnswers();
             }
         });
 
