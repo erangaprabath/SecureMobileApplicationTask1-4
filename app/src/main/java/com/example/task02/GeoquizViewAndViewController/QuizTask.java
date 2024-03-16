@@ -32,6 +32,7 @@ public class QuizTask extends AppCompatActivity {
     private static final String SUCCSS_RATE = "FinishedRate";
     private static  final String CORRECT_ANSWER = "Answers";
     private static  final String CHEATED_COUNT = "Answers";
+    private static  final String HOLD_ANSWERED_QUIZ = "HoldAnsweredQuiz";
     private Button nextScreen;
     private int successRate = 0;
     private int[] cheatedQuizCount = {0};
@@ -129,6 +130,17 @@ public class QuizTask extends AppCompatActivity {
        successRate = (int)(((double)correctAnswers / quizQuestions.length) * 100);
         resultTextView.setText("Success Rate is " + successRate + "%");
     }
+    private void holdInstance(Bundle savedInstanceState){
+        currentQuiz = savedInstanceState.getInt(KEY_INDEX,0);
+        successRate = savedInstanceState.getInt(SUCCSS_RATE,1);
+        correctAnswers = savedInstanceState.getInt(CORRECT_ANSWER,2);
+        cheat[currentQuiz] = savedInstanceState.getBoolean(IS_CHEATED,false);
+        cheatedQuizCount = savedInstanceState.getIntArray(CHEATED_COUNT);
+        if (cheatedQuizCount == null) {
+            cheatedQuizCount = new int[]{0, 1};
+        }
+        answersSelected[currentQuiz] = savedInstanceState.getBoolean(HOLD_ANSWERED_QUIZ,false);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,17 +149,8 @@ public class QuizTask extends AppCompatActivity {
         setContentView(R.layout.activity_quiz_task);
         cheat[currentQuiz] = false;
         if (savedInstanceState != null){
-            currentQuiz = savedInstanceState.getInt(KEY_INDEX,0);
-            successRate = savedInstanceState.getInt(SUCCSS_RATE,1);
-            correctAnswers = savedInstanceState.getInt(CORRECT_ANSWER,2);
-            cheat[currentQuiz] = savedInstanceState.getBoolean(IS_CHEATED,false);
-            cheatedQuizCount = savedInstanceState.getIntArray(CHEATED_COUNT);
-            if (cheatedQuizCount == null) {
-                cheatedQuizCount = new int[]{0, 1};
-            }
-
+            holdInstance(savedInstanceState);
         }
-//        cheatQuizCount = findViewById(R.id.cheatedQuizCount);
         quizTextView = findViewById(R.id.quizView);
         trueButton = findViewById(R.id.trueButton);
         falseButton = findViewById(R.id.falseButton);
@@ -215,6 +218,7 @@ public class QuizTask extends AppCompatActivity {
         outState.putInt(SUCCSS_RATE,successRate);
         outState.putInt(CORRECT_ANSWER,correctAnswers);
         outState.putBoolean(IS_CHEATED,cheat[currentQuiz]);
+        outState.putBoolean(HOLD_ANSWERED_QUIZ,!answersSelected[currentQuiz]);
     }
 
 
