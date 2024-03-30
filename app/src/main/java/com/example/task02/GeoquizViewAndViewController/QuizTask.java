@@ -68,8 +68,6 @@ public class QuizTask extends AppCompatActivity {
         }
     }
 
-
-
     private void updateQuizView(int quizIndex){
         int updatedQuiz = quizQuestions[quizIndex].getQuestionTextId();
         quizTextView.setText("NO : " + quizIndex + " " + getString(updatedQuiz));
@@ -92,7 +90,9 @@ public class QuizTask extends AppCompatActivity {
         else {
                 if (selectedAnswer == correctAnswer) {
                         Toast.makeText(this, R.string.correctAnswer, Toast.LENGTH_SHORT).show();
-                    correctAnswers++;
+                        if (!answersSelected[currentQuiz]) {
+                            correctAnswers++;
+                        }
                 } else {
                     Toast.makeText(this, R.string.wrongAnswer, Toast.LENGTH_SHORT).show();
                 }
@@ -128,10 +128,10 @@ public class QuizTask extends AppCompatActivity {
         resultTextView.setText("Success Rate is " + successRate + "%");
     }
     private void holdInstance(Bundle savedInstanceState){
+        answersSelected[currentQuiz] = savedInstanceState.getBoolean(HOLD_ANSWERED_QUIZ,false);
         cheat[currentQuiz] = savedInstanceState.getBoolean(IS_CHEATED,false);
         currentQuiz = savedInstanceState.getInt(KEY_INDEX,0);
         correctAnswers = savedInstanceState.getInt(CORRECT_ANSWER,0);
-        answersSelected[currentQuiz] = savedInstanceState.getBoolean(HOLD_ANSWERED_QUIZ,false);
         successRate = savedInstanceState.getInt(SUCCSS_RATE,0);
         cheatedQuizCount = savedInstanceState.getIntArray(CHEATED_COUNT);
 //        if (cheatedQuizCount == null) {
