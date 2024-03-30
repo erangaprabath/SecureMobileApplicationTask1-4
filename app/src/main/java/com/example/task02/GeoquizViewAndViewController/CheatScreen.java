@@ -51,11 +51,7 @@ public class CheatScreen extends AppCompatActivity {
             answerIsTrue = savedInstanceState.getBoolean(EXTRA_ANSER_SAVE,false);
             showCheatedAnswers();
         }
-        showAnswer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showCheatedAnswers();
-            }
+   
         });
 
 
@@ -64,6 +60,7 @@ public class CheatScreen extends AppCompatActivity {
     private void showAnswer(boolean isAnswerShow){
         Intent data = new Intent();
         data.putExtra(EXTRA_ANSER_SHOW,isAnswerShow);
+
         setResult(RESULT_OK,data);
     }
 
