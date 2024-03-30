@@ -49,13 +49,9 @@ public class CheatScreen extends AppCompatActivity {
         showAnswer = findViewById(R.id.button);
         if (savedInstanceState != null){
             answerIsTrue = savedInstanceState.getBoolean(EXTRA_ANSER_SAVE,false);
-          showCheatedAnswers();
+            showCheatedAnswers();
         }
-        showAnswer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              showCheatedAnswers();
-            }
+   
         });
 
 
